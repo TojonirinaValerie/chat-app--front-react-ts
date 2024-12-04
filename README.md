@@ -1,50 +1,80 @@
-# React + TypeScript + Vite
+# Chat App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+Une application de chat en temps réel conçue pour offrir une expérience de communication fluide, instantanée.
+Le lien du back-end: [https://github.com/TojonirinaValerie/chat-app--back-node-ts-express-mongoose](https://github.com/TojonirinaValerie/chat-app--back-node-ts-express-mongoose)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Caractéristiques
 
-## Expanding the ESLint configuration
+- authentification
+- message en temps réel
+- pagination sur les messages
+- indication de "en train d'ecrire"
+- gestion des ami(e)s
+- gestion notification
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Languages/Technologies utilisées
 
-- Configure the top-level `parserOptions` property like this:
+- typescript
+- react
+- socket.io
+- express
+- mongoDB
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Installation
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Pour lancer l'application en local, assurez-vous d'avoir `Node` installé sur votre machine, puis suivez ces étapes:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Installation du backend
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. Ouvrez un terminal, puis clonez le backend:
+
+   ```bash
+   git clone https://github.com/TojonirinaValerie/chat-app--back-node-ts-express-mongoose.git
+   ```
+
+2. Accéder au répertoire du projet:
+   ```bash
+   cd chat-app--back-node-ts-express-mongoose
+   ```
+3. Installez les dépendances en utilisant npm:
+
+   ```bash
+   npm install
+   ```
+
+4. Lancer le serveur:
+   ```bash
+   npm start
+   ```
+
+### Installation du frontend
+
+1. Ouvrez un terminal, puis clonez le frontend:
+   ```bash
+   git clone https://github.com/TojonirinaValerie/chat-app--front-react-ts.git
+   ```
+2. Accéder au répertoire du projet:
+   ```bash
+   cd chat-app--front-react-ts
+   ```
+3. Installez les dépendances en utilisant npm:
+
+   ```bash
+   npm install
+   ```
+
+4. Lancer le serveur
+
+   ```bash
+   npm run dev
+   ```
+
+Accédez à l'application dans votre navigateur web à l'adresse [http://localhost:5173](http://localhost:5173).
+
+## Guides
+
+- Creer un compte
+- Se connecter
+- Ajouter un(e) ami(e) avant d'envoyer un message

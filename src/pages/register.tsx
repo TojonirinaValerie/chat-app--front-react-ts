@@ -64,7 +64,6 @@ const Register = () => {
             error={formik.touched.pseudo && formik.errors.pseudo}
           >
             <Input
-              type="pseudo"
               classNames={{
                 input:
                   "bg-input-bg text-white border-input-bg focus:border-blue-ligth text-bas placeholder:text-grey",
