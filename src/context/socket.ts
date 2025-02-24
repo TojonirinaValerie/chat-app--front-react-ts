@@ -12,6 +12,9 @@ socket.on("connect", () => {
 });
 
 socket.on("connect_error", (err) => {
+  console.log('====================================');
+  console.log("erreur", err);
+  console.log('====================================');
   try {
     const errorData = JSON.parse(err.message) as {
       code: number;
