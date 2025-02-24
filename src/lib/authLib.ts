@@ -65,6 +65,7 @@ export const useRegisterForm = () => {
       agreeToTerms: false,
     },
     onSubmit: async (value) => {
+      setIsLoading(true)
       try {
         const response = await register(value);
         localStorage.setItem(

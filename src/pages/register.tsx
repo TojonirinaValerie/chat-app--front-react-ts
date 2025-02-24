@@ -11,7 +11,7 @@ import { useRegisterForm } from "../lib/authLib";
 const Register = () => {
   const [showPassword, setshowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { formik } = useRegisterForm();
+  const { formik, isLoading } = useRegisterForm();
 
   return (
     <div className="w-full h-full flex flex-row items-center justify-center bg-bg-ligth">
@@ -141,6 +141,7 @@ const Register = () => {
             color="#6b8afd"
             classNames={{ label: "font-[500] text-base py-8", root: "py-5" }}
             disabled={!formik.isValid}
+            loading={isLoading}
           >
             S'inscrire
           </Button>
