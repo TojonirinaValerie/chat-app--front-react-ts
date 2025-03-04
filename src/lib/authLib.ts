@@ -107,15 +107,14 @@ export const useAuth = ()=>{
     appDispatch(setLoadingDataUser(true));
     try {
       const response = await getUserInfo();
+      appDispatch(setUser(response.data.data));
+      appDispatch(setLoadingDataUser(false));
       if (
         !response.data.data.profilPicture &&
         location.pathname !== NavigationRoute.UPLOAD_PROFIL
       ) {
-        appDispatch(setLoadingDataUser(false));
         return navigate(NavigationRoute.UPLOAD_PROFIL);
       }
-      appDispatch(setUser(response.data.data));
-      appDispatch(setLoadingDataUser(false));
       socket.emit("user-connected", response.data.data._id);
     } catch (e) {
       toast.error("Accès non autorisé.", {
