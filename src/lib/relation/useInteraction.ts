@@ -74,8 +74,8 @@ const useInteraction = () => {
       console.log(e);
     } finally {
       const refresh = async () => {
-        getNotificationCount();
-        getFriendRequest();
+        await getNotificationCount();
+        await getFriendRequest();
       };
       await refresh();
     }
@@ -90,8 +90,8 @@ const useInteraction = () => {
       console.log(e);
     } finally {
       const refresh = async () => {
-        getNotificationCount();
-        if (getMyFriendRequest) getMyFriendRequest();
+        await getNotificationCount();
+        if (getMyFriendRequest) await getMyFriendRequest();
       };
       await refresh();
     }
@@ -106,11 +106,30 @@ const useInteraction = () => {
       console.log(e);
     } finally {
       const refresh = async () => {
-        getNotificationCount();
-        if (getMyFriendRequest) getMyFriendRequest();
+        await getNotificationCount();
+        if (getMyFriendRequest) await getMyFriendRequest();
       };
       await refresh();
     }
+  };
+
+
+  const addInLoading = (id: string) => {
+    const listLoading = [...idLoading];
+
+    if (listLoading.find((value) => value === id)) {
+      return;
+    }
+    listLoading.push(id);
+
+    setIdLoading(listLoading);
+  };
+
+  const removeInLoading = (id: string) => {
+    let listLoading = [...idLoading];
+    listLoading = listLoading.filter((value) => value !== id);
+
+    setIdLoading(listLoading);
   };
 
   const handleAction = async ({ data }: ActionInteractionType) => {
@@ -144,28 +163,6 @@ const useInteraction = () => {
         break;
     }
   };
-
-  const addInLoading = (id: string) => {
-    const listLoading = [...idLoading];
-
-    if (listLoading.find((value) => value === id)) {
-      return;
-    }
-    listLoading.push(id);
-
-    setIdLoading(listLoading);
-  };
-
-  const removeInLoading = (id: string) => {
-    let listLoading = [...idLoading];
-    listLoading = listLoading.filter((value) => value !== id);
-
-    setIdLoading(listLoading);
-  };
-
-  useEffect(() => {
-    console.log(idLoading);
-  }, [idLoading]);
 
   return {
     handleAction,
