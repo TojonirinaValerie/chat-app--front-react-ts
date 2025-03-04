@@ -51,7 +51,7 @@ const useInteraction = () => {
   const handleAddUser = async (id: string) => {
     try {
       await sendFriendRequest(id);
-      getSuggestions();
+      await getSuggestions();
     } catch (e) {
       toast.error("Une erreur s'est produite");
       console.log(e);
@@ -73,8 +73,11 @@ const useInteraction = () => {
       toast.error("Une erreur s'est produite");
       console.log(e);
     } finally {
-      getNotificationCount();
-      getFriendRequest();
+      const refresh = async () => {
+        getNotificationCount();
+        getFriendRequest();
+      };
+      await refresh();
     }
   };
 
@@ -86,8 +89,11 @@ const useInteraction = () => {
       toast.error("Une erreur s'est produite");
       console.log(e);
     } finally {
-      getNotificationCount();
-      if (getMyFriendRequest) getMyFriendRequest();
+      const refresh = async () => {
+        getNotificationCount();
+        if (getMyFriendRequest) getMyFriendRequest();
+      };
+      await refresh();
     }
   };
 
@@ -99,8 +105,11 @@ const useInteraction = () => {
       toast.error("Une erreur s'est produite");
       console.log(e);
     } finally {
-      getNotificationCount();
-      if (getMyFriendRequest) getMyFriendRequest();
+      const refresh = async () => {
+        getNotificationCount();
+        if (getMyFriendRequest) getMyFriendRequest();
+      };
+      await refresh();
     }
   };
 
