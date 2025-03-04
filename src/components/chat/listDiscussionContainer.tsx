@@ -10,7 +10,7 @@ const ListDiscussionContainer = () => {
   const { id } = useParams();
   return (
     <div className="flex flex-col w-full h-full">
-      <div className="pr-6 pl-2 px-">
+      <div className="pr-6 pl-2">
         <div className="w-full flex flex-row items-center bg-blue-dark p-2 pl-4 rounded-[8px]">
           <RiSearchLine className="text-grey" />
           <input

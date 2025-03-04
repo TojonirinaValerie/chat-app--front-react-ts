@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import NavigationRoute from "../../NavigationRoute";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   deleteRequest,
   replyFriendRequest,
@@ -34,6 +34,7 @@ export interface ActionInteractionType {
 }
 
 const useInteraction = () => {
+  const [idLoading, setIdLoading] = useState<string[]>([]);
   const { getNotificationCount } = useNotificationCount();
 
   const { getSuggestions } = useFetchSuggestionsApi();
@@ -45,19 +46,15 @@ const useInteraction = () => {
   const handlClickMessage = (id: string) => {
     navigate(`${NavigationRoute.CHAT}/${id}`);
   };
-  const [isLoading, setIsLoading] = useState(false);
 
   // click sur ajouter amie
   const handleAddUser = async (id: string) => {
-    setIsLoading(true);
     try {
       await sendFriendRequest(id);
       getSuggestions();
     } catch (e) {
       toast.error("Une erreur s'est produite");
       console.log(e);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -66,7 +63,6 @@ const useInteraction = () => {
     idRelation: string,
     status: RelationStatusType
   ) => {
-    setIsLoading(true);
     try {
       await replyFriendRequest(idRelation, status);
     } catch (e: any) {
@@ -77,7 +73,6 @@ const useInteraction = () => {
       toast.error("Une erreur s'est produite");
       console.log(e);
     } finally {
-      setIsLoading(false);
       getNotificationCount();
       getFriendRequest();
     }
@@ -85,14 +80,12 @@ const useInteraction = () => {
 
   // click sur supprime ou cancel
   const handleDeleteRequest = async (idRelation: string) => {
-    setIsLoading(true);
     try {
       await deleteRequest(idRelation);
     } catch (e) {
       toast.error("Une erreur s'est produite");
       console.log(e);
     } finally {
-      setIsLoading(false);
       getNotificationCount();
       if (getMyFriendRequest) getMyFriendRequest();
     }
@@ -100,43 +93,74 @@ const useInteraction = () => {
 
   // click renvoyer
   const handleResendRequest = async (idRelation: string) => {
-    setIsLoading(true);
     try {
       await resendRequest(idRelation);
     } catch (e) {
       toast.error("Une erreur s'est produite");
       console.log(e);
     } finally {
-      setIsLoading(false);
       getNotificationCount();
       if (getMyFriendRequest) getMyFriendRequest();
     }
   };
 
-  const handleAction = ({ data }: ActionInteractionType) => {
+  const handleAction = async ({ data }: ActionInteractionType) => {
     switch (data.action) {
       case "add-user":
-        handleAddUser(data.idUser);
+        addInLoading(data.idUser);
+        await handleAddUser(data.idUser);
+        removeInLoading(data.idUser);
         break;
       case "to-message":
-        handlClickMessage(data.idUser);
+        addInLoading(data.idUser);
+        await handlClickMessage(data.idUser);
+        removeInLoading(data.idUser);
         break;
       case "reply":
-        handleReplyFriendRequest(data.data.idRelation, data.data.status);
+        addInLoading(data.data.idRelation);
+        await handleReplyFriendRequest(data.data.idRelation, data.data.status);
+        removeInLoading(data.data.idRelation);
         break;
       case "delete-request":
-        handleDeleteRequest(data.idRelation);
+        addInLoading(data.idRelation);
+        await handleDeleteRequest(data.idRelation);
+        removeInLoading(data.idRelation);
         break;
       case "resend-request":
-        handleResendRequest(data.idRelation);
+        addInLoading(data.idRelation);
+        await handleResendRequest(data.idRelation);
+        removeInLoading(data.idRelation);
         break;
       default:
         break;
     }
   };
+
+  const addInLoading = (id: string) => {
+    const listLoading = [...idLoading];
+
+    if (listLoading.find((value) => value === id)) {
+      return;
+    }
+    listLoading.push(id);
+
+    setIdLoading(listLoading);
+  };
+
+  const removeInLoading = (id: string) => {
+    let listLoading = [...idLoading];
+    listLoading = listLoading.filter((value) => value !== id);
+
+    setIdLoading(listLoading);
+  };
+
+  useEffect(() => {
+    console.log(idLoading);
+  }, [idLoading]);
+
   return {
     handleAction,
-    loadingSendFriendRequest: isLoading,
+    idLoading,
   };
 };
 

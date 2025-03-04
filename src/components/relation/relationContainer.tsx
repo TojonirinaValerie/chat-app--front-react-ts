@@ -8,6 +8,8 @@ import useInteraction from "../../lib/relation/useInteraction";
 import useFetchMyFriendRequest from "../../lib/relation/fetchMyFriendRequest";
 import { useAppSelector } from "../../redux/store";
 import useFetchSuggestions from "../../lib/relation/fetchSuggestion";
+import { Link } from "react-router-dom";
+import { RiArrowGoBackLine } from "react-icons/ri";
 
 export type RelationType =
   | NavigationRoute.FRINEDS
@@ -20,8 +22,13 @@ interface RelationContainerProps {
 }
 const RelationContainer: React.FC<RelationContainerProps> = ({ type }) => {
   const { title } = useRelationTitle(type);
-  const { receiveRequest, suggestions, myPendingRequest, myRejectedRequest, friends } =
-    useAppSelector((state) => state.relation);
+  const {
+    receiveRequest,
+    suggestions,
+    myPendingRequest,
+    myRejectedRequest,
+    friends,
+  } = useAppSelector((state) => state.relation);
 
   // --------------------Fetch les données---------------------------------------
   const { isLoadingSuggestion } = useFetchSuggestions();
@@ -30,14 +37,18 @@ const RelationContainer: React.FC<RelationContainerProps> = ({ type }) => {
   const { isLoadingFetchListFriend } = useFetchFriends();
   // ----------------------------------------------------------------------------
 
-
   // ---------Pour l'interaction avec les bouton---------
-  const { handleAction } = useInteraction();
+  const { handleAction, idLoading } = useInteraction();
   // ----------------------------------------------------
 
   return (
     <div className="flex flex-col justify-between w-full h-full pl-4">
-      <h1 className="text-[1.4rem]">{title}</h1>
+      <div className="flex flex-row items-center">
+        <Link to={NavigationRoute.RELATION} className="lg:hidden">
+          <RiArrowGoBackLine className="mx-3 cursor-pointer hover:text-white min-w-[25px]" />
+        </Link>
+        <h1 className="text-[1.4rem]">{title}</h1>
+      </div>
       <ScrollArea
         scrollbars="y"
         className="w-full h-full mt-4 pr-6"
@@ -56,12 +67,13 @@ const RelationContainer: React.FC<RelationContainerProps> = ({ type }) => {
                 Vous n'avez aucun ami(e) pour l'instant☹️
               </div>
             ) : (
-              friends.map((friend) => (
+              friends.map((friend, index) => (
                 <RelationResultItem
                   user={friend}
                   type={type}
-                  key={`relation-${friend._id}`}
+                  key={`relation-${friend._id}-${index}`}
                   handleAction={handleAction}
+                  loading={idLoading.includes(friend._id)}
                 />
               ))
             )}
@@ -78,12 +90,13 @@ const RelationContainer: React.FC<RelationContainerProps> = ({ type }) => {
                 Aucun suggestion trouver☹️
               </div>
             ) : (
-              suggestions.map((suggestion) => (
+              suggestions.map((suggestion, index) => (
                 <RelationResultItem
                   type={type}
                   user={suggestion}
-                  key={`relation-${suggestion._id}`}
+                  key={`relation-${suggestion._id}-${index}`}
                   handleAction={handleAction}
+                  loading={idLoading.includes(suggestion._id)}
                 />
               ))
             )}
@@ -101,15 +114,18 @@ const RelationContainer: React.FC<RelationContainerProps> = ({ type }) => {
                 Vous n'avez reçu aucune demande d'ami(e)☹️
               </div>
             ) : (
-              receiveRequest.map((request) => {
+              receiveRequest.map((request, index) => {
                 const relation = request.relations;
                 return (
                   <RelationResultItem
                     idRelation={relation && relation[0]._id}
                     type={type}
                     user={request}
-                    key={`relation-${request}`}
+                    key={`relation-${request}-${index}`}
                     handleAction={handleAction}
+                    loading={
+                      relation ? idLoading.includes(relation[0]._id) : false
+                    }
                   />
                 );
               })
@@ -129,16 +145,19 @@ const RelationContainer: React.FC<RelationContainerProps> = ({ type }) => {
                   Les demandes que vous avez envoyer se trouvent içi.
                 </div>
               ) : (
-                myPendingRequest.map((request) => {
+                myPendingRequest.map((request, index) => {
                   const relation = request.relations;
                   return (
                     <RelationResultItem
                       idRelation={relation && relation[0]._id}
                       type={type}
                       user={request}
-                      key={`relation-${request}`}
+                      key={`relation-${request}-${index}`}
                       handleAction={handleAction}
                       relationStatus={relation && relation[0].status}
+                      loading={
+                        relation ? idLoading.includes(relation[0]._id) : false
+                      }
                     />
                   );
                 })
@@ -155,16 +174,19 @@ const RelationContainer: React.FC<RelationContainerProps> = ({ type }) => {
                   Les demandes rejetés se trouvent içi.
                 </div>
               ) : (
-                myRejectedRequest.map((request) => {
+                myRejectedRequest.map((request, index) => {
                   const relation = request.relations;
                   return (
                     <RelationResultItem
                       idRelation={relation && relation[0]._id}
                       type={type}
                       user={request}
-                      key={`relation-${request}`}
+                      key={`relation-${request}-${index}`}
                       handleAction={handleAction}
                       relationStatus={relation && relation[0].status}
+                      loading={
+                        relation ? idLoading.includes(relation[0]._id) : false
+                      }
                     />
                   );
                 })

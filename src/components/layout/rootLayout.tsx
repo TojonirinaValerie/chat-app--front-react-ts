@@ -53,11 +53,13 @@ const RootLayout = () => {
         visible={loading.loadingDataUser}
         overlayProps={{ blur: 2, color: "#111" }}
       />
-      <NavigationContainer />
       <audio ref={audioRef} src={MessageReceiveSound} preload="auto" />
       <audio ref={notifAudioRef} src={NotificationSound} preload="auto" />
       <audio ref={typingAudioRef} src={TypingSound} preload="auto" />
-      <Outlet />
+      <div className="w-full h-full flex flex-row" >
+        <NavigationContainer />
+        <Outlet />
+      </div>
     </div>
   );
 };

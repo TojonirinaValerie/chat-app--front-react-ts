@@ -43,7 +43,7 @@ const ConversationContainer = () => {
   });
 
   return (
-    <div className="flex flex-col justify-between w-full h-full pl-4">
+    <div className="flex flex-col justify-between w-full h-full pl-4 max-sm:pb-16">
       <ConversationHeader otherUser={otherUser} />
       <ScrollArea
         viewportRef={scrollAreaRef}

@@ -12,6 +12,7 @@ interface RelationResultItemProps {
   idRelation?: string;
   relationStatus?: RelationStatusType;
   handleAction: (data: ActionInteractionType) => void;
+  loading: boolean;
 }
 const RelationResultItem: React.FC<RelationResultItemProps> = ({
   user,
@@ -19,6 +20,7 @@ const RelationResultItem: React.FC<RelationResultItemProps> = ({
   idRelation,
   relationStatus,
   handleAction,
+  loading,
 }) => {
   return (
     <div
@@ -52,6 +54,7 @@ const RelationResultItem: React.FC<RelationResultItemProps> = ({
                     },
                   })
                 }
+                loading={loading}
               >
                 Ajouter ami(e)
               </Button>
@@ -69,6 +72,7 @@ const RelationResultItem: React.FC<RelationResultItemProps> = ({
                     },
                   })
                 }
+                loading={loading}
               >
                 Messages
               </Button>
@@ -92,6 +96,7 @@ const RelationResultItem: React.FC<RelationResultItemProps> = ({
                       },
                     })
                   }
+                  loading={loading}
                 >
                   Accepter
                 </Button>
@@ -111,6 +116,7 @@ const RelationResultItem: React.FC<RelationResultItemProps> = ({
                       },
                     })
                   }
+                  loading={loading}
                 >
                   Rejeter
                 </Button>
@@ -125,9 +131,13 @@ const RelationResultItem: React.FC<RelationResultItemProps> = ({
                       variant=""
                       className="mr-4"
                       classNames={{ label: "font-[500]" }}
-                      onClick={() =>idRelation && handleAction({
-                        data: { action: "resend-request", idRelation },
-                      })}
+                      onClick={() =>
+                        idRelation &&
+                        handleAction({
+                          data: { action: "resend-request", idRelation },
+                        })
+                      }
+                      loading={loading}
                     >
                       Renvoyer
                     </Button>
@@ -141,6 +151,7 @@ const RelationResultItem: React.FC<RelationResultItemProps> = ({
                           data: { action: "delete-request", idRelation },
                         })
                       }
+                      loading={loading}
                     >
                       Supprimer
                     </Button>
@@ -157,6 +168,7 @@ const RelationResultItem: React.FC<RelationResultItemProps> = ({
                         data: { action: "delete-request", idRelation },
                       })
                     }
+                    loading={loading}
                   >
                     Annuler
                   </Button>

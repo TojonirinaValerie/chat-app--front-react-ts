@@ -1,9 +1,12 @@
 import { Avatar, Menu } from "@mantine/core";
 import { IoCall, IoEllipsisVertical, IoSearch } from "react-icons/io5";
+import { RiArrowGoBackLine } from "react-icons/ri";
 import { IUser } from "../../types/user";
 import { toProfilUrl } from "../../utils/utils";
 import { useAppDispatch } from "../../redux/store";
 import { setShowDetailMessage } from "../../redux/slice/setting.slice";
+import { Link } from "react-router-dom";
+import NavigationRoute from "../../NavigationRoute";
 
 interface ConversationHeaderProps {
   otherUser?: IUser;
@@ -15,6 +18,9 @@ const ConversationHeader: React.FC<ConversationHeaderProps> = ({
   return (
     <header className="flex flex-row items-center justify-between pr-4">
       <div className="flex flex-row items-center">
+        <Link to={NavigationRoute.CHAT}>
+          <RiArrowGoBackLine className="mx-3 cursor-pointer hover:text-white min-w-[25px] lg:hidden" />
+        </Link>
         <div>
           <Avatar
             src={

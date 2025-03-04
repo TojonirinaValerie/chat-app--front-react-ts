@@ -1,4 +1,4 @@
-import { TextInput } from "@mantine/core";
+import { Loader, TextInput } from "@mantine/core";
 import { IUser } from "../../types/user";
 import useSendMessage from "../../lib/message/sendMessage";
 import { IoMdAttach } from "react-icons/io";
@@ -6,7 +6,7 @@ import { IoSend } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { GrEmoji } from "react-icons/gr";
-import EmojiPicker, { EmojiClickData, Theme } from "emoji-picker-react";
+import { useAppSelector } from "../../redux/store";
 
 interface MessageInputProps {
   indexOtherUser: number | null;
@@ -25,6 +25,8 @@ const MessageInput: React.FC<MessageInputProps> = ({
     handleKeyDown,
     setContent,
   } = useSendMessage(indexOtherUser, otherUser);
+
+  const loading = useAppSelector((state) => state.loading.loadingSendMessage);
 
   useEffect(() => {
     setContent("");
@@ -70,10 +72,14 @@ const MessageInput: React.FC<MessageInputProps> = ({
           </div>
         }
         rightSection={
-          <IoSend
-            className="text-grey text-base cursor-pointer hover:text-blue-ligth"
-            onClick={handleSendMessage}
-          />
+          loading ? (
+            <Loader size="xs" />
+          ) : (
+            <IoSend
+              className="text-grey text-base cursor-pointer hover:text-blue-ligth"
+              onClick={handleSendMessage}
+            />
+          )
         }
       />
     </div>
