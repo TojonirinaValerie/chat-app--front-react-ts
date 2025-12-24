@@ -145,7 +145,7 @@ const Register = () => {
           >
             S'inscrire
           </Button>
-          <Divider
+          {/* <Divider
             my="xs"
             label={<p className="text-grey">Ou s'inscrire avec</p>}
             labelPosition="center"
@@ -160,7 +160,7 @@ const Register = () => {
               <img src={FacebookIcon} className="w-[20px] mr-2" />
               <span className="font-[500] text-white">Facebook</span>
             </Button>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>

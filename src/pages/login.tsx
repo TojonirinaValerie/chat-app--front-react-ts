@@ -69,7 +69,7 @@ const Login = () => {
           >
             Se connecter
           </Button>
-          <Divider
+          {/* <Divider
             my="xs"
             label={<p className="text-grey">Ou se connecter avec</p>}
             labelPosition="center"
@@ -84,7 +84,7 @@ const Login = () => {
               <img src={FacebookIcon} className="w-[20px] mr-2" />
               <span className="font-[500] text-white">Facebook</span>
             </Button>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>
